@@ -5,12 +5,13 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, si
 import { getFirestore, doc, setDoc, getDoc, collection, getDocs, deleteDoc, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC8tFn0w7NUYk-9iYrDuN4nmBUJ3tUJ3wI",
-  authDomain: "nexora-identy.firebaseapp.com",
-  projectId: "nexora-identy",
-  storageBucket: "nexora-identy.firebasestorage.app",
-  messagingSenderId: "476881024875",
-  appId: "1:476881024875:web:61bf0db510dcdb7e3e3e2e"
+  apiKey: "AIzaSyDBkPzB_HYmiwBCMGZl-z7J22APkGJmNQE",
+  authDomain: "veneai.firebaseapp.com",
+  projectId: "veneai",
+  storageBucket: "veneai.firebasestorage.app",
+  messagingSenderId: "457872144207",
+  appId: "1:457872144207:web:d9b0d0fd6015a8b722773a",
+  measurementId: "G-E36D0NTYY1"
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
