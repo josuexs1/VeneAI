@@ -18,7 +18,7 @@ app.post('/api/chat', async (req, res) => {
   try {
     const { messages } = req.body;
     const completion = await openai.chat.completions.create({
-      model: "google/gemini-flash-1.5-8b:free",
+      model: "google/gemma-4-31b-it:free",
       messages: messages,
       max_tokens: 1000,
     });
