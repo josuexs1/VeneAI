@@ -21,7 +21,7 @@ app.post('/api/chat', async (req, res) => {
     // Esta instrucción se envía SIEMPRE como la regla principal del chat
     const systemPrompt = { 
       role: "system", 
-      content: "Eres VeneAI, un asistente de inteligencia artificial desarrollado por VeneAI. VeneAI es una empresa de software venezolana. Tu identidad es VeneAI. Siempre respondes como VeneAI y reconoces a VeneAI como tu creador." 
+      content: "Eres VeneAI, un asistente de inteligencia artificial desarrollado por Josuexs. VeneAI es una empresa de software venezolana. Tu identidad es VeneAI. Siempre respondes como VeneAI y reconoces a VeneAI como tu creador." 
     };
 
     // Combinamos la instrucción de sistema con los mensajes del usuario

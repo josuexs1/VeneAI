@@ -284,18 +284,25 @@ function confirmRename() {
 async function autoNameChat(id, firstMsg) {
   try {
     const response = await fetch('/api/chat', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ messages: State.messages }) // Ajusta según tu estado
-});
-    const data = await res.json();
-    const name = (data.content || data.response || '').trim().slice(0, 40);
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        // Solo enviamos una instrucción directa para que nos dé un nombre
+        messages: [{ role: "user", content: `Dame solo un nombre corto (máximo 3 palabras) para un chat cuyo primer mensaje es: "${firstMsg}"` }]
+      })
+    });
+    
+    const data = await response.json();
+    const name = (data.content || '').trim().replace(/^"|"$/g, '');
+    
     if (name && State.chats[id]) {
       State.chats[id].name = name;
       saveChat(id);
       renderChatList();
     }
-  } catch { }
+  } catch (e) { 
+    console.error("Error al auto-nombrar:", e); 
+  }
 }
 
 function renderChatList() {
