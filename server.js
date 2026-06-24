@@ -6,22 +6,32 @@ require('dotenv').config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public')); // Sirve tus archivos html/css/js
+app.use(express.static('public'));
 
 const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
   apiKey: process.env.OPENROUTER_API_KEY,
 });
 
-// Ruta para el Chat (reemplaza a netlify/functions/chat.js)
 app.post('/api/chat', async (req, res) => {
   try {
     const { messages } = req.body;
+
+    // --- MODIFICACIÓN AQUÍ ---
+    // Esta instrucción se envía SIEMPRE como la regla principal del chat
+    const systemPrompt = { 
+      role: "system", 
+      content: "Eres Kora, un asistente de inteligencia artificial desarrollado por Nexora. Nexora es una empresa de software venezolana. Tu identidad es Kora. Siempre respondes como Kora y reconoces a Nexora como tu creador." 
+    };
+
+    // Combinamos la instrucción de sistema con los mensajes del usuario
     const completion = await openai.chat.completions.create({
       model: "google/gemma-4-31b-it:free",
-      messages: messages,
+      messages: [systemPrompt, ...messages], 
       max_tokens: 1000,
     });
+    // -------------------------
+
     res.json({ content: completion.choices[0].message.content });
   } catch (error) {
     res.status(500).json({ error: error.message });
