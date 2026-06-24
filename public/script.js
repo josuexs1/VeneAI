@@ -28,7 +28,7 @@ const State = {
   chats: {},
   currentId: null,
   memory: [],
-  theme: Store.get('kora_theme', 'dark'),
+  theme: Store.get('VeneAI_theme', 'dark'),
   isGenerating: false,
   abortCtrl: null,
   renamingId: null,
@@ -85,7 +85,7 @@ const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(
 function setTheme(t) {
   State.theme = t;
   document.body.setAttribute('data-theme', t);
-  Store.set('kora_theme', t);
+  Store.set('VeneAI_theme', t);
   document.querySelectorAll('.toggle-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.themeVal === t);
   });
@@ -235,7 +235,7 @@ window.downloadCode = function(btn, lang) {
   const ext = { javascript:'js', python:'py', html:'html', css:'css', typescript:'ts', java:'java', cpp:'cpp', c:'c', bash:'sh', json:'json', sql:'sql' }[lang.toLowerCase()] || 'txt';
   const blob = new Blob([pre.innerText], { type: 'text/plain' });
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-  a.download = `kora-code.${ext}`; a.click();
+  a.download = `VeneAI-code.${ext}`; a.click();
 };
 
 function createChat() {
@@ -349,7 +349,7 @@ function buildWelcome() {
   const el = document.createElement('div');
   el.id = 'welcome'; el.className = 'welcome';
   el.innerHTML = `
-    <img src="favicon.png" alt="Kora" class="welcome-logo"/>
+    <img src="favicon.png" alt="VeneAI" class="welcome-logo"/>
     <h1 class="welcome-title">¿En qué puedo ayudarte?</h1>`;
   return el;
 }
@@ -375,7 +375,7 @@ function buildMsgEl(msg) {
     row.innerHTML = `<div class="msg-bubble">${escaped}</div>`;
   } else {
     row.innerHTML = `
-      <div class="msg-kora-avatar"><img src="favicon.png" alt="K"/></div>
+      <div class="msg-VeneAI-avatar"><img src="favicon.png" alt="K"/></div>
       <div class="msg-content">${parseMarkdown(msg.content)}</div>
       <div class="msg-actions">
         <button class="msg-action-btn" data-action="copy" title="Copiar" onclick="handleMsgAction(this,'copy')">
@@ -484,7 +484,7 @@ function removeMemoryByText(text) {
 }
 
 function buildSystemPrompt() {
-  let sys = `Eres Kora, una inteligencia artificial desarrollada por Nexora.
+  let sys = `Eres VeneAI, una inteligencia artificial desarrollada por VeneAI.
 
 Eres un asistente conversacional avanzado diseñado para proporcionar respuestas útiles, claras, profundas y confiables.
 
@@ -492,7 +492,7 @@ Tu objetivo principal es ayudar al usuario con explicaciones de alta calidad, bi
 
 IDENTIDAD Y PERSONALIDAD
 
-Eres Kora, una IA inteligente, directa y confiable. Tu tono se adapta al usuario y al contexto. Mantienes un equilibrio entre naturalidad y precisión. No usas emojis. No usas frases de relleno ni introducciones innecesarias. Si el usuario pregunta quién eres, respondes con seguridad y claridad.
+Eres VeneAI, una IA inteligente, directa y confiable. Tu tono se adapta al usuario y al contexto. Mantienes un equilibrio entre naturalidad y precisión. No usas emojis. No usas frases de relleno ni introducciones innecesarias. Si el usuario pregunta quién eres, respondes con seguridad y claridad.
 
 REGLA PRINCIPAL DE CALIDAD
 
@@ -524,9 +524,9 @@ OPTIMIZACIÓN DE RESPUESTAS
 
 Evitas respuestas vagas sin explicación. Evitas listas sin desarrollo. Evitas conceptos sin contexto. Siempre que sea posible explicas el por qué además del qué.
 
-CONTEXTO NEXORA
+CONTEXTO VeneAI
 
-Nexora es una empresa venezolana de tecnología fundada el 29 de julio de 2025 por Gabriel Vera (Alev), enfocada en software, inteligencia artificial y ecosistemas digitales. Sus proyectos incluyen Kora, Sorex y otros sistemas en desarrollo. Este contexto es solo informativo y no debe repetirse en cada respuesta.
+VeneAI es una empresa venezolana de tecnología fundada el 29 de julio de 2025 por Josuexs, enfocada en software, inteligencia artificial y ecosistemas digitales. Sus proyectos incluyen VeneAI, Sorex y otros sistemas en desarrollo. Este contexto es solo informativo y no debe repetirse en cada respuesta.
 
 OBJETIVO FINAL
 
@@ -537,9 +537,9 @@ Tu objetivo es ser una IA útil, clara, profunda y confiable. No solo debes resp
   }
   if (State.plan === 'one') {
     const today = new Date().toLocaleDateString('es-VE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    sys += `\n\nINTEGRACIÓN CON CALENDAR (NEXORA ONE)\nTienes acceso a Nexora Calendar. Hoy es ${today}.\nSi el usuario menciona querer agendar algo, créalo INMEDIATAMENTE sin pedir confirmación. Incluye AL FINAL de tu respuesta este JSON:\n{"action":"create_event","title":"...","date":"YYYY-MM-DD","time":"HH:MM","description":"..."}\nEn tu texto solo di algo breve como "Listo, lo agendé para el [fecha]." NO pidas confirmación. NO expliques nada más.`;
+    sys += `\n\nINTEGRACIÓN CON CALENDAR (VeneAI ONE)\nTienes acceso a VeneAI Calendar. Hoy es ${today}.\nSi el usuario menciona querer agendar algo, créalo INMEDIATAMENTE sin pedir confirmación. Incluye AL FINAL de tu respuesta este JSON:\n{"action":"create_event","title":"...","date":"YYYY-MM-DD","time":"HH:MM","description":"..."}\nEn tu texto solo di algo breve como "Listo, lo agendé para el [fecha]." NO pidas confirmación. NO expliques nada más.`;
   }
-  sys += `\n\nECOSISTEMA NEXORA\nSomos un ecosistema de apps venezolano. Las apps disponibles son:\n- Nexora ID: identidad digital, gestión de cuenta y sesiones\n- Kora: inteligencia artificial (tú)\n- Nexora Notes: editor de notas con Kora integrada\n- Nexora Pass: gestor de contraseñas con cifrado AES-256\n- Nexora Drive: almacenamiento en la nube cifrado\n- Nexora Calendar: calendario inteligente con Kora integrada\n- Nexora Mail: correo electrónico (próximamente)\nNexora One es el plan premium ($5.99/mes) que desbloquea funciones ilimitadas en todas las apps.`;
+  sys += `\n\nECOSISTEMA VeneAI\nSomos un ecosistema de apps venezolano. Las apps disponibles son:\n- VeneAI ID: identidad digital, gestión de cuenta y sesiones\n- VeneAI: inteligencia artificial (tú)\n- VeneAI Notes: editor de notas con VeneAI integrada\n- VeneAI Pass: gestor de contraseñas con cifrado AES-256\n- VeneAI Drive: almacenamiento en la nube cifrado\n- VeneAI Calendar: calendario inteligente con VeneAI integrada\n- VeneAI Mail: correo electrónico (próximamente)\nVeneAI One es el plan premium ($5.99/mes) que desbloquea funciones ilimitadas en todas las apps.`;
   return sys;
 }
 
@@ -617,7 +617,7 @@ async function sendMessage(text) {
     const data = await res.json();
     aiResponse = data.content || data.response || 'Lo siento, ocurrió un error al procesar tu mensaje.';
 
-    // Detectar si Kora quiere crear un evento en Calendar (solo One)
+    // Detectar si VeneAI quiere crear un evento en Calendar (solo One)
     if (State.plan === 'one') {
       try {
         const jsonMatch = aiResponse.match(/\{[\s\S]*"action"\s*:\s*"create_event"[\s\S]*\}/);
@@ -739,7 +739,7 @@ function toggleLoginMode() {
     DOM.loginToggleText.innerHTML = '¿No tienes cuenta? <button id="login-toggle" class="login-link">Regístrate</button>';
   } else {
     DOM.loginTitle.textContent = 'Crea tu cuenta';
-    DOM.loginSubtitle.textContent = 'Únete a Kora gratis';
+    DOM.loginSubtitle.textContent = 'Únete a VeneAI gratis';
     DOM.loginSubmitBtn.textContent = 'Crear cuenta';
     DOM.loginToggleText.innerHTML = '¿Ya tienes cuenta? <button id="login-toggle" class="login-link">Inicia sesión</button>';
   }
@@ -807,7 +807,7 @@ async function onUserLogin(user) {
   const browser = /Chrome/i.test(ua) ? 'Chrome' : /Firefox/i.test(ua) ? 'Firefox' : /Safari/i.test(ua) ? 'Safari' : 'Navegador';
   const device = `${mobile ? 'Móvil' : 'PC'} · ${browser}`;
   await setDoc(doc(db, 'users', user.uid), {
-    sessions: { kora: { active: true, lastSeen: serverTimestamp(), device } }
+    sessions: { VeneAI: { active: true, lastSeen: serverTimestamp(), device } }
   }, { merge: true });
 
   
