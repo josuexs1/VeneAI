@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="favicon.png">
+  <title>Kora — AI Assistant by Nexora</title>
+  <meta name="description" content="Conoce Kora, el asistente de inteligencia artificial creado por Nexora en Venezuela. Una nueva forma de chatear con IA, generar ideas y explorar el futuro de la tecnología." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body data-theme="dark">
+  <h1 class="visually-hidden">Kora — AI Assistant by Nexora</h1>
+
+<p class="visually-hidden">
+  Kora es un asistente de inteligencia artificial creado por Nexora en Venezuela. Permite chatear, generar ideas y obtener respuestas inteligentes en tiempo real.
+</p>
+
+  
+  <div id="splash">
+    <div class="splash-inner">
+      <img src="favicon.png" alt="Kora" class="splash-logo" />
+      <div class="splash-bar"><div class="splash-fill"></div></div>
+    </div>
+  </div>
+
+  
+  <div id="login-screen" class="login-screen hidden">
+    <div class="login-bg">
+      <div class="login-glow"></div>
+    </div>
+    <div class="login-card">
+      <img src="favicon.png" alt="Kora" class="login-logo" />
+      <h1 id="login-title" class="login-title">Bienvenido de vuelta</h1>
+      <p id="login-subtitle" class="login-subtitle">Inicia sesión para continuar</p>
+
+      <div id="login-error" class="login-error hidden"></div>
+
+      <div class="login-fields">
+        <div class="login-field">
+          <label class="login-label">Correo</label>
+          <input id="login-email" type="email" class="login-input" placeholder="tu@correo.com" autocomplete="email" />
+        </div>
+        <div class="login-field">
+          <label class="login-label">Contraseña</label>
+          <input id="login-password" type="password" class="login-input" placeholder="••••••••" autocomplete="current-password" />
+        </div>
+      </div>
+
+      <button id="login-submit" class="login-btn-primary">Entrar</button>
+
+      <div class="login-divider"><span>o</span></div>
+
+      <button id="login-google" class="login-btn-google">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continuar con Google
+      </button>
+
+      <p id="login-toggle-text" class="login-toggle-text">
+        ¿No tienes cuenta? <button id="login-toggle" class="login-link">Regístrate</button>
+      </p>
+
+      <p class="login-brand">Nexora Company LLC</p>
+    </div>
+  </div>
+
+  
+  <div id="app" class="hidden">
+
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <img src="favicon.png" alt="Kora" class="sidebar-logo" />
+        <button id="new-chat-btn" class="btn-icon" title="Nuevo chat">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+
+      <div class="sidebar-section-label">Conversaciones</div>
+      <div id="chat-list" class="chat-list"></div>
+
+      <div class="sidebar-footer">
+        <div class="user-pill">
+          <div class="user-pill-avatar" id="user-pill-avatar">U</div>
+          <div class="user-pill-info">
+            <span id="user-display-name" class="user-pill-name">Usuario</span>
+            <span id="user-display-email" class="user-pill-email">correo@ejemplo.com</span>
+          </div>
+          <button id="logout-btn" class="btn-icon" title="Cerrar sesión">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </button>
+        </div>
+        <button class="sidebar-foot-btn" id="memory-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          Memoria
+        </button>
+        <button class="sidebar-foot-btn" id="settings-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Configuración
+        </button>
+        <div class="sidebar-brand">Nexora Company LLC</div>
+      </div>
+    </aside>
+
+    
+    <main id="main" class="main">
+      <header class="main-header" style="display:none!important">
+        <button id="burger-btn" class="btn-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <button id="new-chat-mobile" class="btn-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </header>
+
+      
+      <button id="burger-float" class="floating-burger">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <button id="new-chat-float" class="floating-new">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+
+      <div id="messages" class="messages">
+        <div id="welcome" class="welcome">
+          <img src="favicon.png" alt="Kora" class="welcome-logo" />
+          <h1 class="welcome-title">¿En qué puedo ayudarte?</h1>
+        </div>
+      </div>
+
+      <div class="input-area">
+        <div class="input-wrapper">
+          <textarea id="user-input" class="user-input" placeholder="Escribe un mensaje…" rows="1"></textarea>
+          <button id="send-btn" class="send-btn" title="Enviar">
+            <svg class="icon-send" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <svg class="icon-stop hidden" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          </button>
+        </div>
+        <p class="input-disclaimer">Kora puede cometer errores. Verifica información importante.</p>
+      </div>
+    </main>
+  </div>
+
+  
+  <div id="memory-modal" class="modal hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2>Memoria permanente</h2>
+        <button class="modal-close" id="memory-close">✕</button>
+      </div>
+      <div id="memory-list" class="memory-list"></div>
+      <button class="btn-danger" id="clear-memory-btn">Borrar toda la memoria</button>
+    </div>
+  </div>
+
+  
+  <div id="settings-modal" class="modal hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2>Configuración</h2>
+        <button class="modal-close" id="settings-close">✕</button>
+      </div>
+      <div class="settings-row">
+        <span>Tema</span>
+        <div class="toggle-group">
+          <button class="toggle-btn active" data-theme-val="dark">Oscuro</button>
+          <button class="toggle-btn" data-theme-val="light">Claro</button>
+        </div>
+      </div>
+      <div class="settings-row">
+        <span>Borrar todo el historial</span>
+        <button class="btn-danger-sm" id="clear-all-btn">Borrar</button>
+      </div>
+      <div class="settings-info"><strong>Kora v1.5.5</strong><br>Nexora Company</div>
+    </div>
+  </div>
+
+  
+  <div id="rename-modal" class="modal hidden">
+    <div class="modal-box small">
+      <div class="modal-header">
+        <h2>Renombrar chat</h2>
+        <button class="modal-close" id="rename-close">✕</button>
+      </div>
+      <input type="text" id="rename-input" class="rename-input" placeholder="Nombre del chat" />
+      <button class="btn-primary" id="rename-confirm">Guardar</button>
+    </div>
+  </div>
+
+  
+  <div id="confirm-modal" class="modal hidden">
+    <div class="modal-box small">
+      <p id="confirm-message" style="font-size:14px;line-height:1.6;margin-bottom:20px;color:var(--text)"></p>
+      <div style="display:flex;gap:8px">
+        <button id="confirm-cancel" class="btn-cancel-inline">Cancelar</button>
+        <button id="confirm-ok" class="btn-danger-inline">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
