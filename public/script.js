@@ -582,7 +582,7 @@ async function sendMessage(text) {
     if (needsSearch(text)) {
       addSearchIndicator();
       try {
-        const searchRes = await fetch('/.netlify/functions/search', {
+        const searchRes = await fetch('/api/search', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ query: text })
@@ -601,7 +601,7 @@ async function sendMessage(text) {
     }));
 
     State.abortCtrl = new AbortController();
-    const res = await fetch('/.netlify/functions/chat', {
+    const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       signal: State.abortCtrl.signal,
